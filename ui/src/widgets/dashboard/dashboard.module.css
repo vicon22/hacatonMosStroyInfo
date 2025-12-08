@@ -1,0 +1,20 @@
+.blueprints {
+    list-style: none;
+
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--unit) * 3);
+    margin: calc(var(--unit) * 3) 0;
+}
+
+.blueprint {
+    width: calc(var(--unit) * 60);
+    padding: calc(var(--unit) * 2);
+}
+
+.image {
+    width: 100%;
+    height: calc(var(--unit) * 30);
+    object-fit: cover;
+}

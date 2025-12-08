@@ -1,0 +1,34 @@
+{
+  "name": "foreman",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@effector/next": "^0.7.2",
+    "@gravity-ui/icons": "^2.16.0",
+    "@gravity-ui/navigation": "^3.10.1",
+    "@gravity-ui/uikit": "^7.26.2",
+    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query-devtools": "^5.91.1",
+    "classnames": "^2.5.1",
+    "effector": "^23.4.4",
+    "i18next": "^25.7.1",
+    "next": "16.0.7",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "react-i18next": "^16.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.7",
+    "typescript": "^5"
+  }
+}

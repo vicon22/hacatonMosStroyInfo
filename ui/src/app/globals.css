@@ -1,0 +1,26 @@
+@import '@gravity-ui/uikit/styles/fonts.css';
+@import '@gravity-ui/uikit/styles/styles.css';
+
+@layer core, theme;
+
+@layer core {
+    :root {
+        --unit: 4px;
+    }
+}
+
+@layer theme {
+    :root {
+        --separator-color: var(--g-color-line-generic);
+    }
+}
+
+
+html,
+body {
+    max-width: 100vw;
+    min-width: 420px;
+    height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+}
