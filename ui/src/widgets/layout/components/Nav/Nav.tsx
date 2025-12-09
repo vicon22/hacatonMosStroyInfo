@@ -2,6 +2,7 @@ import { JSX, memo } from 'react';
 import cn from 'classnames';
 import { Button } from '@gravity-ui/uikit';
 import st from './nav.module.css';
+import Link from 'next/link';
 
 type NavProps = {
     className?: string;
@@ -17,10 +18,12 @@ export const Nav = memo(function Nav(props: NavProps) {
         <ul className={cn(st.links, props.className)}>
             {props.links.map(item => (
                 <li key={item.href}>
-                    <Button className={st.button} view='flat' size='xl' pin='brick-brick' width='max'>
-                        {item.icon}
-                        {item.title}
-                    </Button>
+                    <Link href={item.href}>
+                        <Button className={st.button} view='flat' size='xl' pin='brick-brick' width='max'>
+                            {item.icon}
+                            {item.title}
+                        </Button>
+                    </Link>
                 </li>
             ))}
         </ul>

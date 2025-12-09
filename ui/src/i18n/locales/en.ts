@@ -8,7 +8,10 @@ const translations = {
         wiki: 'Wiki',
     },
     blueprints: {
-        header: 'Blueprints'
+        header: 'Blueprints',
+        item: {
+            header: 'Blueprint {{name}}',
+        }
     },
     projects: {
         create: 'Create project',

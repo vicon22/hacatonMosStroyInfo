@@ -7,7 +7,10 @@ const translations = {
         wiki: 'База знаний',
     },
     blueprints: {
-        header: 'Варианты проектов'
+        header: 'Варианты проектов',
+        item: {
+            header: 'Проект {{name}}',
+        }
     },
     projects: {
         create: 'Новый проект',

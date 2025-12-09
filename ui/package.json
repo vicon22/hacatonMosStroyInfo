@@ -11,24 +11,25 @@
   "dependencies": {
     "@effector/next": "^0.7.2",
     "@gravity-ui/icons": "^2.16.0",
-    "@gravity-ui/navigation": "^3.10.1",
-    "@gravity-ui/uikit": "^7.26.2",
+    "@gravity-ui/navigation": "^3.11.0",
+    "@gravity-ui/uikit": "^7.28.0",
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-query-devtools": "^5.91.1",
     "classnames": "^2.5.1",
+    "dashjs": "^5.1.0",
     "effector": "^23.4.4",
-    "i18next": "^25.7.1",
-    "next": "16.0.7",
+    "i18next": "^25.7.2",
+    "next": "16.0.8",
     "react": "19.2.1",
     "react-dom": "19.2.1",
-    "react-i18next": "^16.3.5"
+    "react-i18next": "^16.4.0"
   },
   "devDependencies": {
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.7",
+    "eslint-config-next": "16.0.8",
     "typescript": "^5"
   }
 }

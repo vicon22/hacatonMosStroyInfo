@@ -1,4 +1,4 @@
-.blueprints {
+.tiles {
     list-style: none;
 
     padding: 0;
@@ -8,7 +8,7 @@
     margin: calc(var(--unit) * 3) 0;
 }
 
-.blueprint {
+.tile {
     width: calc(var(--unit) * 60);
     padding: calc(var(--unit) * 2);
 }
@@ -17,4 +17,11 @@
     width: 100%;
     height: calc(var(--unit) * 30);
     object-fit: cover;
+}
+
+.thumb {
+    width: calc(var(--unit) * 20);
+    height: calc(var(--unit) * 12);
+    object-fit: cover;
+    display: block;
 }
