@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import {TabProvider, TabList, Tab, TabPanel} from '@gravity-ui/uikit';
 import { useBlueprintById } from "@/entities/blueprints/hooks";
 import Image from "next/image";
+import Chat from "@/widgets/Chat/Chat";
 
 type SummaryProps = {
     id: string;
@@ -38,7 +39,7 @@ export const Summary = memo(function Summary({id}: SummaryProps) {
                 <TabList>
                     <Tab value="video">Online translation</Tab>
                     <Tab value="documents" disabled>Documents</Tab>
-                    <Tab value="chat" disabled>Chat</Tab>
+                    <Tab value="chat">Chat</Tab>
                 </TabList>
                 <div>
                     <TabPanel value="video">
@@ -47,7 +48,9 @@ export const Summary = memo(function Summary({id}: SummaryProps) {
                         </div>
                     </TabPanel>
                     <TabPanel value="documents">docs</TabPanel>
-                    <TabPanel value="chat">chat</TabPanel>
+                    <TabPanel value="chat">
+                        <Chat/>
+                    </TabPanel>
                 </div>
             </TabProvider>
         </div>
