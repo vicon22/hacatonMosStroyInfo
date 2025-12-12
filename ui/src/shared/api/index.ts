@@ -2,7 +2,7 @@ import { HTTPError } from './errors';
 import { HTTPMethod } from './types';
 
 export class ApiClient {
-    static root = 'http://localhost:3000/api';
+    static root = 'http://localhost/api';
     private static _instance: ApiClient;
 
     private headers: HeadersInit = {};

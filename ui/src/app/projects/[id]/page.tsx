@@ -14,7 +14,9 @@ type ProjectByIdPageProps = {
 export default async function ProjectByIdPage(props: ProjectByIdPageProps) {
     const id = (await props.params)?.id;
 
-    if (!id ) {
+    console.log({id})
+
+    if (!id) {
         notFound();
     }
 
