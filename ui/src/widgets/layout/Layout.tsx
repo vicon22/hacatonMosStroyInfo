@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Icon, Text, User } from '@gravity-ui/uikit';
-import { BookOpen, Geo, House, PersonWorker, Plus, Rocket, Trolley } from '@gravity-ui/icons';
+import { BookOpen, Files, Geo, House, PersonWorker, Plus, Rocket, Trolley } from '@gravity-ui/icons';
 import { Nav } from './components/Nav/Nav';
 import st from './layout.module.css';
 import { memo, ReactNode } from 'react';
@@ -48,6 +48,7 @@ export const Layout = memo(function Layout(props: LayoutProps) {
                         {title: t('nav.dashboard'), icon: <Icon data={House}/>, href: '/'},
                         {title: t('nav.blueprints'), icon: <Icon data={Geo}/>, href: '/blueprints'},
                         {title: t('nav.projects'), icon: <Icon data={Rocket}/>, href: '/projects'},
+                        {title: t('nav.documents'), icon: <Icon data={Files}/>, href: '/docs'}
                     ]}
                 />
 
