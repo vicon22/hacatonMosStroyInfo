@@ -1,0 +1,32 @@
+.layout {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    padding: calc(var(--unit) * 2);
+    flex-grow: 1;
+    overflow: auto;
+    overflow: auto;
+}
+
+.controls {
+    padding: calc(var(--unit) * 2);
+    display: flex;
+    gap: calc(var(--unit) * 2);
+}
+
+.message {
+    max-width: 60%;
+    display: inline-block;
+    padding: calc(var(--unit) * 2);
+    align-self: flex-start;
+    margin: calc(var(--unit) * 2);
+}
+
+.message.own {
+    align-self: flex-end;
+}

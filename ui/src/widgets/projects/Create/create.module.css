@@ -1,0 +1,29 @@
+.title {
+    line-height: 3;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--unit) * 3);
+}
+
+.preview {
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--unit);
+    overflow: hidden;
+}
+
+.blueprints {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.submit {
+    margin-top: calc(var(--unit) * 10)
+}
