@@ -3,21 +3,21 @@
 import { useAllBlueprints } from "@/entities/blueprints/hooks";
 import { useAllProjects } from "@/entities/projects/hooks";
 import { Card, Text } from "@gravity-ui/uikit";
-import { memo } from "react"
+import { memo, useMemo } from "react"
 import { useTranslation } from "react-i18next";
 import st from './dashboard.module.css';
 import Link from "next/link";
-
-const formatter = new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-    notation: 'compact',
-});
 
 export const Dashboard = memo(function Dashboard() {
     const { t } = useTranslation();
     const projects = useAllProjects();
     const blueprints = useAllBlueprints();
+
+    const formatter = useMemo(() => new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'RUB',
+        notation: 'compact',
+    }), []);
 
     return (
         <div>
@@ -33,7 +33,7 @@ export const Dashboard = memo(function Dashboard() {
                                 <Card className={st.tile} view='filled'>
                                     <img className={st.image} loading='lazy' src={item.image_url} alt={item.title} />
                                     <Text variant='subheader-1'>{item.title}</Text>
-                                    <div>
+                                    <div suppressHydrationWarning>
                                         <Text variant='subheader-1'>{formatter.format(item.price)}</Text>
                                     </div>
 
