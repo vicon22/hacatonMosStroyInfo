@@ -28,18 +28,33 @@ export async function POST(request: NextRequest) {
         const result = await response.json();
         console.log('[LOGIN] Backend result:', result);
 
-        const setCookieHeader = response.headers.get('set-cookie');
-        console.log('[LOGIN] Set-Cookie header:', setCookieHeader);
-
         const nextResponse = NextResponse.json({ ok: result.ok });
 
-        if (setCookieHeader && result.ok) {
-            nextResponse.headers.set('Set-Cookie', setCookieHeader);
+        // Получаем все Set-Cookie заголовки из ответа бэкенда
+        const setCookieHeaders = response.headers.getSetCookie();
+        console.log('[LOGIN] Set-Cookie headers:', setCookieHeaders);
+
+        // Устанавливаем cookies в ответ Next.js
+        if (setCookieHeaders && setCookieHeaders.length > 0 && result.ok) {
+            setCookieHeaders.forEach(cookie => {
+                nextResponse.headers.append('Set-Cookie', cookie);
+            });
         }
 
         return nextResponse;
     } catch (error) {
         console.error('[LOGIN] Error:', error);
-        return NextResponse.json({ ok: false }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
+        // Если бэкенд недоступен (ECONNREFUSED), возвращаем понятную ошибку
+        if (errorMessage.includes('ECONNREFUSED') || errorMessage.includes('fetch failed')) {
+            console.error('[LOGIN] Backend is not available. Make sure the API server is running on port 8080');
+            return NextResponse.json(
+                { ok: false, error: 'Backend server is not available' }, 
+                { status: 503 }
+            );
+        }
+        
+        return NextResponse.json({ ok: false, error: errorMessage }, { status: 500 });
     }
 }

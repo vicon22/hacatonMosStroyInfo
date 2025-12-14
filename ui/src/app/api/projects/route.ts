@@ -1,24 +1,89 @@
-import { CreateProjectPayload, Project, ProjectStatus } from '@/entities/projects/types';
 import { NextRequest, NextResponse } from 'next/server';
-import { data, getData } from './data';
+import { cookies } from 'next/headers';
 
-export async function GET() {
-    return NextResponse.json<Project[]>(getData());
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
+export async function GET(request: NextRequest) {
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get('fm_session');
+
+    try {
+        const response = await fetch(`${API_URL}/api/projects`, {
+            method: 'GET',
+            headers: {
+                'Cookie': sessionCookie ? `fm_session=${sessionCookie.value}` : '',
+            },
+        });
+
+        if (!response.ok) {
+            return NextResponse.json(
+                { error: 'Failed to fetch projects' }, 
+                { status: response.status }
+            );
+        }
+
+        const data = await response.json();
+        return NextResponse.json(data);
+    } catch (error) {
+        console.error('[PROJECTS API] Error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
+        if (errorMessage.includes('ECONNREFUSED') || errorMessage.includes('fetch failed')) {
+            return NextResponse.json(
+                { error: 'Backend server is not available' }, 
+                { status: 503 }
+            );
+        }
+        
+        return NextResponse.json(
+            { error: errorMessage }, 
+            { status: 500 }
+        );
+    }
 }
 
-export async function POST(request: NextRequest) { 
-    const body: CreateProjectPayload = await request.json();
-    const item: Project = {
-        id: Math.floor(Math.random() * 100000),
-        status: ProjectStatus.new,
-        title: body.title,
-        blueprint_id: Number(body.blueprintId),
-        translations: [],
+export async function POST(request: NextRequest) {
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get('fm_session');
+    const body = await request.json();
+
+    try {
+        const response = await fetch(`${API_URL}/api/projects/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cookie': sessionCookie ? `fm_session=${sessionCookie.value}` : '',
+            },
+            body: JSON.stringify({
+                blueprintId: body.blueprintId,
+                title: body.title,
+            }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            return NextResponse.json(
+                { error: errorText }, 
+                { status: response.status }
+            );
+        }
+
+        const data = await response.json();
+        return NextResponse.json(data);
+    } catch (error) {
+        console.error('[PROJECTS API] Error creating project:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
+        if (errorMessage.includes('ECONNREFUSED') || errorMessage.includes('fetch failed')) {
+            return NextResponse.json(
+                { error: 'Backend server is not available' }, 
+                { status: 503 }
+            );
+        }
+        
+        return NextResponse.json(
+            { error: errorMessage }, 
+            { status: 500 }
+        );
     }
-
-    data.push(item);
-
-    console.log({data})
-
-    return NextResponse.json<Project>(item);
 }

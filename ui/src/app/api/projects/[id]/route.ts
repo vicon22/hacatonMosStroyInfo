@@ -1,21 +1,53 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getData } from '../data';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { Project } from '@/entities/projects/types';
 
-export async function GET(_req: NextRequest, ctx: RouteContext<'/api/projects/[id]'>) {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
+type RouteContext = {
+    params: Promise<{ id: string }>
+}
+
+export async function GET(_req: NextRequest, ctx: RouteContext) {
     const { id } = await ctx.params;
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get('fm_session');
 
-    console.log({
-        id,
-        data: getData()
-    })
+    try {
+        const response = await fetch(`${API_URL}/api/projects/${id}`, {
+            method: 'GET',
+            headers: {
+                'Cookie': sessionCookie ? `fm_session=${sessionCookie.value}` : '',
+            },
+        });
 
-    const item = getData().find(item => item.id === +id);
+        if (response.status === 404) {
+            return notFound();
+        }
 
-    if (!item) {
-        return notFound()
+        if (!response.ok) {
+            return NextResponse.json(
+                { error: 'Failed to fetch project' }, 
+                { status: response.status }
+            );
+        }
+
+        const data = await response.json();
+        return NextResponse.json(data);
+    } catch (error) {
+        console.error('[PROJECT API] Error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
+        if (errorMessage.includes('ECONNREFUSED') || errorMessage.includes('fetch failed')) {
+            return NextResponse.json(
+                { error: 'Backend server is not available' }, 
+                { status: 503 }
+            );
+        }
+        
+        return NextResponse.json(
+            { error: errorMessage }, 
+            { status: 500 }
+        );
     }
-
-    return NextResponse.json<Project>(item);
 }

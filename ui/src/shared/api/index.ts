@@ -2,7 +2,7 @@ import { HTTPError } from './errors';
 import { HTTPMethod } from './types';
 
 export class ApiClient {
-    static root = 'http://localhost/api';
+    static root = '/api';
     private static _instance: ApiClient;
 
     private headers: HeadersInit = {};
@@ -10,8 +10,22 @@ export class ApiClient {
         'Content-Type': 'application/json'
     };
  
+    private getBaseUrl(): string {
+        // На сервере нужно использовать полный URL к Next.js серверу, на клиенте - относительный
+        if (typeof window === 'undefined') {
+            // Серверная сторона - используем localhost:3000 (Next.js сервер)
+            const port = process.env.PORT || '3000';
+            return `http://localhost:${port}`;
+        }
+        // Клиентская сторона - используем относительный путь
+        return '';
+    }
+ 
     private request(url: string, method: HTTPMethod, params?: Partial<RequestInit>) {
-        return fetch(`${ApiClient.root}${url}`, {
+        const baseUrl = this.getBaseUrl();
+        const fullUrl = `${baseUrl}${ApiClient.root}${url}`;
+        
+        return fetch(fullUrl, {
             credentials: 'include',
             method,
             ...params,
@@ -40,7 +54,10 @@ export class ApiClient {
 
                 return res;
             })
-            .catch(e => console.log(url, e))
+            .catch(e => {
+                console.error(`[ApiClient] Error for ${url}:`, e);
+                throw e;
+            })
     }
 
     public addHeaders(headers?: HeadersInit) {
