@@ -29,6 +29,7 @@ public class DataInitializer implements CommandLineRunner {
         
         if (userRepository.count() == 0) {
             User admin = new User();
+            admin.setId(UUID.fromString("550e8400-e29b-41d4-a716-446655440099"));
             admin.setEmail("admin");
             admin.setPassword("123");
             admin.setFirstName("Администратор");
