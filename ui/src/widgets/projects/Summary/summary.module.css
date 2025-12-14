@@ -5,4 +5,72 @@
     display: block;
 }
 
+
+.image {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    max-height: calc(var(--unit) * 150);
+}
+
+.card {
+    overflow: hidden;
+}
+
+.title.title  {
+    line-height: 3;
+}
+
+.info {
+    padding: calc(var(--unit) * 4)
+}
+
+.features {
+    padding: calc(var(--unit) * 4) 0
+}
+
+.feature {
+    padding: calc(var(--unit) * 2) 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stages,
+.contacts,
+.details {
+    margin: calc(var(--unit) * 4) 0;
+    padding: calc(var(--unit) * 4);
+}
+
+.contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--unit) * 4);
+}
+
+.properties {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: calc(var(--unit) * 4) 0;
+}
+
+.property {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--unit) * 2);
+}
  
+
+.videos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc(var(--unit) * 3);
+}
+
+.video {
+    width: 100%;
+    overflow: hidden;
+}

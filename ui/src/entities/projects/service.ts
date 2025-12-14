@@ -1,15 +1,20 @@
 
 import { ApiClient } from '@/shared/api';
-import { Project, ProjectID } from '@/entities/projects/types';
+import { CreateProjectPayload, Project, ProjectID } from '@/entities/projects/types';
 
 export const root = '/projects';
 
 export function getAll() {
-  return ApiClient.instance
-    .get<Project[]>(root);
+    return ApiClient.instance
+        .get<Project[]>(root);
 }
 
 export function getById(id: ProjectID) {
-  return ApiClient.instance
-    .get<Project>(`${root}/${id}`);
+    return ApiClient.instance
+        .get<Project>(`${root}/${id}`);
+}
+
+export function createProject(payload: CreateProjectPayload) {
+    return ApiClient.instance
+        .post<CreateProjectPayload, Project>(root, payload);
 }

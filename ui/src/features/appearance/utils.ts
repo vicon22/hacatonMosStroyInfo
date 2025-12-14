@@ -16,7 +16,7 @@ export function stringToLang(input?: string) {
     return Langs.ru;
 }
 
-export function getLangFromCookie(cookie: String) {
+export function getLangFromCookie(cookie: string) {
     const raw = (cookie.match(langRe) || new Array(2))[1] || '';
     const lang = encodeURIComponent(raw);
 

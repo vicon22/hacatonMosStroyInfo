@@ -1,16 +1,15 @@
 'use client'
 
 import { useAllBlueprints } from "@/entities/blueprints/hooks";
-import { useAllProjects } from "@/entities/projects/hooks";
 import { Card, Text } from "@gravity-ui/uikit";
 import { memo, useMemo } from "react"
+import cn from 'classnames';
 import { useTranslation } from "react-i18next";
 import st from './dashboard.module.css';
 import Link from "next/link";
 
 export const Dashboard = memo(function Dashboard() {
     const { t } = useTranslation();
-    const projects = useAllProjects();
     const blueprints = useAllBlueprints();
 
     const formatter = useMemo(() => new Intl.NumberFormat('ru-RU', {
@@ -23,14 +22,14 @@ export const Dashboard = memo(function Dashboard() {
         <div>
             <div>
                 <Text variant='header-2'>
-                    {t('blueprints.header')}
+                    {t('dashboard.start_project')}
                 </Text>
 
                 <ul className={st.tiles}>
                     {blueprints.data?.map(item => (
                         <li key={item.id}>
                             <Link href={`/blueprints/${item.id}`}>
-                                <Card className={st.tile} view='filled'>
+                                <Card className={cn(st.tile, st.large)} view='filled'>
                                     <img className={st.image} loading='lazy' src={item.image_url} alt={item.title} />
                                     <Text variant='subheader-1'>{item.title}</Text>
                                     <div suppressHydrationWarning>
@@ -43,27 +42,6 @@ export const Dashboard = memo(function Dashboard() {
                     ))}
                 </ul>
             </div>
-
-            <Text variant='header-2'>
-                {t('projects.active.header')}
-            </Text>
-
-            <ul className={st.tiles}>
-                {projects.data?.map(item => {
-                    const blueprint = blueprints.data?.find(b => b.id === item.blueprint_id);
-
-                    return (
-                        <li key={item.id}>
-                            <Link href={`/projects/${item.id}`}>
-                                <Card className={st.tile} view='filled'>
-                                    <img className={st.image} loading='lazy' src={blueprint?.image_url} alt={item.title} />
-                                    <Text variant='subheader-1'>{item.title}</Text>
-                                </Card>
-                            </Link>
-                        </li>
-                    )
-                })}
-            </ul>
         </div>
     )
 })

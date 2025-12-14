@@ -1,13 +1,15 @@
 import { selfId } from './constants';
 import {
-  root,
-  getById,
+    root,
+    getById,
 } from './services';
 
-export const getSelfUserQuery = () => ({
-  queryKey: [
+export const selfUserQueryKey = [
     root,
     selfId,
-  ],
-  queryFn: () => getById(selfId),
+];
+
+export const getSelfUserQuery = () => ({
+    queryKey: selfUserQueryKey,
+    queryFn: () => getById(selfId),
 });

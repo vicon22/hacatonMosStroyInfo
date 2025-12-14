@@ -22,6 +22,7 @@ export function useBlueprintById(
 ) {
     return useQuery<Blueprint>({
         ...getBlueprintByIdQuery(id),
-        ...options
+        ...options,
+        enabled: !!id,
     });
 }

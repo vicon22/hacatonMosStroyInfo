@@ -1,5 +1,5 @@
 .layout {
-    --aside-width: 220px;
+    --aside-width: calc(var(--unit) * 55);
 
     display: grid;
     display: -ms-grid;
@@ -36,7 +36,7 @@
 
 .main {
     grid-area: main;
-    padding: calc(var(--unit) * 2);
+    padding: calc(var(--unit) * 5) calc(var(--unit) * 2);
 }
 
 .primary {

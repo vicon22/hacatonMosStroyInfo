@@ -2,10 +2,12 @@
 
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Icon, Text, User } from '@gravity-ui/uikit';
-import { BookOpen, Files, House, PersonWorker, Plus, Trolley } from '@gravity-ui/icons';
+import { BookOpen, Geo, House, PersonWorker, Plus, Rocket, Trolley } from '@gravity-ui/icons';
 import { Nav } from './components/Nav/Nav';
 import st from './layout.module.css';
 import { memo, ReactNode } from 'react';
+import { useSelfUserData } from '@/entities/user/hooks';
+import Link from 'next/link';
 
 type LayoutProps = {
     children: ReactNode;
@@ -13,6 +15,8 @@ type LayoutProps = {
 
 export const Layout = memo(function Layout(props: LayoutProps) {
     const {t} = useTranslation();
+    const user = useSelfUserData();
+    const fullName = `${user.data?.first_name} ${user.data?.last_name}`;
 
     return (
         <div className={st.layout}>
@@ -20,30 +24,21 @@ export const Layout = memo(function Layout(props: LayoutProps) {
                 {props.children}
             </main>
             <aside className={st.aside}>
-
-                <Text className={st.home} variant='display-1'>
-                    <Icon data={PersonWorker} size={24}/>
-                    foreman
-                </Text>
+                <Link href='/'>
+                    <Text className={st.home} variant='display-1'>
+                        <Icon data={PersonWorker} size={24}/>
+                        foreman
+                    </Text>
+                </Link>
 
                 <Divider />
 
                 <User
                     className={st.unit}
-                    avatar={{text: 'Charles Darwin', theme: 'brand'}}
-                    name="Charles Darwin"
-                    description="charles@mail.ai"
+                    avatar={{text: fullName, theme: 'brand'}}
+                    name={fullName}
                     size="l"
                 />
-
-                <Divider />
-
-                <div className={st.unit}>
-                    <Button width='max' pin='circle-circle' size='xl' view='outlined-action'>
-                        <Icon data={Plus}/>
-                        {t('projects.create')}
-                    </Button>
-                </div>
 
                 <Divider />
 
@@ -51,8 +46,8 @@ export const Layout = memo(function Layout(props: LayoutProps) {
                     className={st.primary}
                     links={[
                         {title: t('nav.dashboard'), icon: <Icon data={House}/>, href: '/'},
-                        {title: t('nav.projects'), icon: <Icon data={PersonWorker}/>, href: '/projects'},
-                        {title: t('nav.documents'), icon: <Icon data={Files}/>, href: '/docs'}
+                        {title: t('nav.blueprints'), icon: <Icon data={Geo}/>, href: '/blueprints'},
+                        {title: t('nav.projects'), icon: <Icon data={Rocket}/>, href: '/projects'},
                     ]}
                 />
 

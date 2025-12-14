@@ -1,16 +1,14 @@
 import { getQueryClient } from "@/configs/queryClient";
 import { getAllBlueprintsQuery } from "@/entities/blueprints/queries";
-import { getAllProjectsQuery } from "@/entities/projects/queries";
 import { pageInit } from "@/shared/utils/app/pageInit";
 import { Layout } from "@/widgets/layout/Layout";
-import { Table } from "@/widgets/projects/Table/Table";
+import { Table } from "@/widgets/blueprints/Table/Table";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-export default async function ProjectsPage() {
+export default async function BlueprintsPage() {
     const client = getQueryClient();
 
     await pageInit(() => Promise.all([
-        client.prefetchQuery(getAllProjectsQuery()),
         client.prefetchQuery(getAllBlueprintsQuery()),
     ]));
 

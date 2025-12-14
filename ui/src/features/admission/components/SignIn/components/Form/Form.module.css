@@ -1,9 +1,0 @@
-.fields {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--space__space-base) * 6);
-    width: 100%;
-    margin-top: calc(var(--space__space-base) * 8);
-    position: relative;
-    z-index: 1;
-}

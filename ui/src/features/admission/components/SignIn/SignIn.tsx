@@ -1,34 +1,39 @@
 'use client'
 
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
-
 import { useLoginMutation } from '@/features/auth/hooks';
-
 import st from './SignIn.module.css';
 import { validateLogin } from './SigIn.utils';
-import Login from './components/Form/Login/Login';
-import Layout from '../../ui/Layout/Layout';
-import { Button } from '@gravity-ui/uikit';
+import { Button, Card, Icon, PasswordInput, Text, TextInput, useToaster } from '@gravity-ui/uikit';
+import { PersonWorker } from '@gravity-ui/icons';
+import { LoginFields } from './SignIn.types';
+import useKeyPress from '@/shared/hooks/useKeyPress';
 
 export default function SignIn() {
     const { t } = useTranslation();
+    const {add} = useToaster();
     const router = useRouter();
-    const [formData, setFormData] = useState<Record<string, string>>({});
+    const [formData, setFormData] = useState<Record<LoginFields, string>>({
+        [LoginFields.password]: '',
+        [LoginFields.username]: ''
+    });
     const [formErrors, setFormErrors] = useState<Record<string, boolean>>({});
-    const headInputRef = useRef<HTMLInputElement>(null);
     
     const loginMutation = useLoginMutation({
         onSuccess: async response => {
             if (response.ok) {
-
-                console.log({response});
                 router.push('/projects');
+            } else {
+                add({
+                    name: 'loginError',
+                    title: t('admission.login.errors.credentials'),
+                    autoHiding: 2000,
+                    isClosable: false,
+                    theme: 'danger'
+                });
             }
-        },
-        onError: async (error) => {
-            console.log(error)
         }
     });
 
@@ -65,37 +70,45 @@ export default function SignIn() {
         });
     }, [formData, formErrors]);
 
-    useEffect(() => {
-        headInputRef?.current?.focus();
-    }, []);
-
+    useKeyPress({ Enter: onLogin });
 
     return (
-        <Layout
-            decorated
-            footer={(
+        <div className={st.layout}>
+            <Card className={st.form} view='filled'>
+                <Text className={st.topline} variant='display-3'>
+                    <Icon data={PersonWorker} size={36}/>
+                    foreman
+                </Text>
+                
+                <div className={st.fields}>
+                    <TextInput
+                        autoFocus
+                        size='xl'
+                        value={formData.username || ''}
+                        placeholder={t('admission.login.fields.username')}
+                        onChange={e => onFormChange({ username: e.target.value.trim() })}
+                    />
+                    <PasswordInput
+                        size='xl'
+                        value={formData.password || ''}
+                        placeholder={t('admission.login.fields.password')}
+                        onChange={e => onFormChange({ password: e.target.value })}
+                    />
+                </div>
+
                 <div className={st.controls}>
                     <Button
+                        pin='circle-circle'
+                        selected
+                        width='max'
                         size='xl'
-                        className={st.button}
+                        disabled={!(formData.password?.length && formData.username?.length)}
                         onClick={onLogin}
                     >
-                        {t('admission.sign_in.actions.submit')}
+                        {t('admission.login.actions.submit')}
                     </Button>
                 </div>
-            )}
-        >
-            <div className={st.form}>
-                <div className={st.content}>
-                    <div className={st.fields}>
-                        <Login
-                            values={formData}
-                            errors={formErrors}
-                            onChange={onFormChange}
-                        />
-                    </div>
-                </div>
-            </div>
-        </Layout>
+            </Card>
+        </div>
     );
 }

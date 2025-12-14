@@ -24,4 +24,5 @@ export type Blueprint = {
     bathrooms: number;
     material: Material;
     seriality: Seriality;
+    description: string;
 }

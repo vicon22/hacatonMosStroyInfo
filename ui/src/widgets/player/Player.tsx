@@ -1,29 +1,53 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import {MediaPlayer} from 'dashjs';
+import st from './player.module.css';
 
-export const Player = () => {
+type PlayerProps = {
+    source: string;
+}
+
+const Player = memo<PlayerProps>(function Player(props) {
     const videoRef = React.useRef(null);
 
     useEffect(() => {
-        const player = videoRef.current;
+        const ref = videoRef.current;
+        const instanse = MediaPlayer().create();
 
-        let url = "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd";
-        let pl = MediaPlayer().create();
+        instanse.updateSettings({
+            streaming: {
+                abr: {
+                    minBitrate: {
+                        audio: 1,
+                        video: 1
+                    },
+                    initialBitrate: {
+                        audio: 1,
+                        video: 1
+                    }
+                }
+            }
+        })
 
-        if (player) {
-            pl.initialize(player, url, true);
+        if (ref) {
+            instanse.initialize(ref, props.source, false);
+            instanse.seek(10);
         }
 
         return () => {
-            pl.destroy()
+            instanse.destroy()
         }
-    }, [videoRef]);
+    }, [videoRef, props.source]);
 
     return (
-        <video width="100%" ref={videoRef} controls autoPlay muted />
+        <video
+            className={st.video}
+            ref={videoRef}
+            controls
+            muted
+        />
     );
-}
+});
 
 export default Player;

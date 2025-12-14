@@ -31,7 +31,14 @@ export class ApiClient {
                     return Promise.resolve({})
                 }
 
-                return response.json();
+               
+                const res = response.json()
+
+                 if (url.includes('user')) {
+                    console.log(res)
+                }
+
+                return res;
             })
             .catch(e => console.log(url, e))
     }
@@ -49,6 +56,11 @@ export class ApiClient {
     }
 
     get<R>(url: string): Promise<R> {
+
+        if (url.includes('user')) {
+            console.log(this.headers);
+        }
+
         return this.request(url, HTTPMethod.get);
     }
 

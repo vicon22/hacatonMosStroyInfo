@@ -13,6 +13,14 @@
     padding: calc(var(--unit) * 2);
 }
 
+.tile.large {
+    width: calc(var(--unit) * 120);
+}
+
+.tile.large .image {
+   height: calc(var(--unit) * 60);
+}
+
 .image {
     width: 100%;
     height: calc(var(--unit) * 30);

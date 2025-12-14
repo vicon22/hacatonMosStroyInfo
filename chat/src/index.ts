@@ -38,8 +38,6 @@ if (cluster.isMaster) {
         path: "/chat"
     });
 
-
-
     // use the cluster adapter
     io.adapter(createAdapter());
 
@@ -55,7 +53,6 @@ if (cluster.isMaster) {
 
         socket.on('send-message', (data) => {
             console.log(data, 'DATA')
-            //This will send a message to a specific room ID
             socket.to(data.roomId).emit('receive-message', data)
         })
 

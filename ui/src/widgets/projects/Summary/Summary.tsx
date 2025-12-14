@@ -1,58 +1,26 @@
 'use client'
 
-import { useProjectById } from "@/entities/projects/hooks";
-import { Text } from "@gravity-ui/uikit";
-import { memo, useState } from "react"
-import { useTranslation } from "react-i18next";
-import st from './summary.module.css';
-import dynamic from "next/dynamic";
-import {TabProvider, TabList, Tab, TabPanel} from '@gravity-ui/uikit';
-import { useBlueprintById } from "@/entities/blueprints/hooks";
-import Image from "next/image";
-import Chat from "@/widgets/Chat/Chat";
+import { useProjectById } from '@/entities/projects/hooks';
+import { memo} from 'react'
+import { ProjectStatus } from '@/entities/projects/types';
+import { Approval } from './components/Approval/Approval';
+import { Construction } from './components/Construction/Construction';
+import { Confirmation } from './components/Confirmation/Confirmation';
 
 type SummaryProps = {
     id: string;
 }
 
- const LazyPlayer = dynamic(
-      () => import("@/widgets/player/Player"),
-      { ssr: false }
-);
-
-export const Summary = memo(function Summary({id}: SummaryProps) {
-    const {t} = useTranslation();
+export const Summary = memo(function Summary({ id }: SummaryProps) {
     const project = useProjectById(id);
-    const blueprint = useBlueprintById(String(project.data?.blueprint_id));
-    const [activeTab, setActiveTab] = useState<string>('video')
 
-    return (
-        <div>
-            <Text variant='header-2'>
-                {project.data?.title}
-            </Text>
+    if (project.data?.status === ProjectStatus.new || project.data?.status === ProjectStatus.approval) {
+        return <Approval id={id}/>
+    }
 
+    if (project.data?.status === ProjectStatus.pending) {
+        return <Construction id={id}/>
+    }
 
-            <img className={st.image} src={String(blueprint.data?.image_url)} alt={String(project.data?.title)}/>
-
-            <TabProvider value={activeTab} onUpdate={setActiveTab}>
-                <TabList>
-                    <Tab value="video">Online translation</Tab>
-                    <Tab value="documents" disabled>Documents</Tab>
-                    <Tab value="chat">Chat</Tab>
-                </TabList>
-                <div>
-                    <TabPanel value="video">
-                        <div className={st.video}>
-                            {activeTab === 'video' && <LazyPlayer />}
-                        </div>
-                    </TabPanel>
-                    <TabPanel value="documents">docs</TabPanel>
-                    <TabPanel value="chat">
-                        <Chat/>
-                    </TabPanel>
-                </div>
-            </TabProvider>
-        </div>
-    )
+    return <Confirmation id={id}/>
 })
