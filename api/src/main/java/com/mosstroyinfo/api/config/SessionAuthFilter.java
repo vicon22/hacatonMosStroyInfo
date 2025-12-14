@@ -3,7 +3,6 @@ package com.mosstroyinfo.api.config;
 import com.mosstroyinfo.api.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class SessionAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         // Пропускаем публичные эндпоинты
-        String path = request.getRequestURI();
+        var path = request.getRequestURI();
         if (path.startsWith("/api/auth/") || 
             path.startsWith("/api/blueprints") || 
             path.startsWith("/h2-console/")) {
@@ -34,12 +33,12 @@ public class SessionAuthFilter extends OncePerRequestFilter {
         }
         
         // Для защищенных эндпоинтов проверяем сессию
-        String sessionId = extractSessionId(request);
+        var sessionId = extractSessionId(request);
         
         if (sessionId != null && authService.isValidSession(sessionId)) {
-            java.util.UUID userId = authService.getUserIdBySession(sessionId);
+            var userId = authService.getUserIdBySession(sessionId);
             if (userId != null) {
-                UsernamePasswordAuthenticationToken authentication = 
+                var authentication =
                     new UsernamePasswordAuthenticationToken(userId, null, 
                         Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -54,9 +53,9 @@ public class SessionAuthFilter extends OncePerRequestFilter {
     }
 
     private String extractSessionId(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
+        var cookies = request.getCookies();
         if (cookies != null) {
-            for (Cookie cookie : cookies) {
+            for (var cookie : cookies) {
                 if ("fm_session".equals(cookie.getName())) {
                     return cookie.getValue();
                 }

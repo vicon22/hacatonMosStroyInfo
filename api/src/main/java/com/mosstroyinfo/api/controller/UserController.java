@@ -22,14 +22,14 @@ public class UserController {
         if (!authService.isValidSession(sessionId)) {
             return ResponseEntity.status(401).build();
         }
-        
-        UserResponse user = userService.getCurrentUser(sessionId);
+
+        var user = userService.getCurrentUser(sessionId);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable UUID id) {
-        UserResponse user = userService.getUserById(id);
+        var user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 }

@@ -2,7 +2,6 @@ package com.mosstroyinfo.api.controller;
 
 import com.mosstroyinfo.api.dto.DocumentResponse;
 import com.mosstroyinfo.api.dto.StatusUpdateRequest;
-import com.mosstroyinfo.api.model.Document;
 import com.mosstroyinfo.api.service.AuthService;
 import com.mosstroyinfo.api.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,13 @@ public class DocumentController {
             @RequestParam("file") MultipartFile file,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).body("{\"error\":\"Unauthorized\"}");
         }
 
         try {
-            DocumentResponse document = documentService.uploadDocument(id, userId, file);
+            var document = documentService.uploadDocument(id, userId, file);
             return ResponseEntity.ok(document);
         } catch (RuntimeException e) {
             return ResponseEntity.status(400).body("{\"error\":\"" + e.getMessage() + "\"}");
@@ -48,13 +47,13 @@ public class DocumentController {
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
 
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
 
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
 
-        List<DocumentResponse> documents = documentService.getUserDocuments(userId);
+        var documents = documentService.getUserDocuments(userId);
         return ResponseEntity.ok(documents);
     }
 
@@ -63,12 +62,12 @@ public class DocumentController {
             @PathVariable UUID id,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
 
-        List<DocumentResponse> documents = documentService.getProjectDocuments(id, userId);
+        var documents = documentService.getProjectDocuments(id, userId);
         return ResponseEntity.ok(documents);
     }
 
@@ -77,14 +76,14 @@ public class DocumentController {
             @PathVariable UUID id,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
 
         try {
-            Resource resource = documentService.downloadDocument(id, userId);
-            Document document = documentService.getDocumentMetadata(id, userId);
+            var resource = documentService.downloadDocument(id, userId);
+            var document = documentService.getDocumentMetadata(id, userId);
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(document.getContentType()))
@@ -101,7 +100,7 @@ public class DocumentController {
             @PathVariable UUID id,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
@@ -120,13 +119,13 @@ public class DocumentController {
             @RequestBody StatusUpdateRequest request,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
 
         try {
-            DocumentResponse document = documentService.updateDocumentStatus(id, userId, request.getStatus());
+            var document = documentService.updateDocumentStatus(id, userId, request.status());
             return ResponseEntity.ok(document);
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).build();
@@ -135,11 +134,11 @@ public class DocumentController {
 
     private UUID getUserId(String sessionId, Authentication authentication) {
         if (authentication != null && authentication.getPrincipal() instanceof UUID) {
-            UUID userId = (UUID) authentication.getPrincipal();
+            var userId = (UUID) authentication.getPrincipal();
             return userId;
         }
         if (sessionId != null) {
-            UUID userId = authService.getUserIdBySession(sessionId);
+            var userId = authService.getUserIdBySession(sessionId);
             return userId;
         }
         return null;

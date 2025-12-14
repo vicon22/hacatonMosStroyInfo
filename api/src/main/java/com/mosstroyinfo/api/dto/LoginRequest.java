@@ -1,14 +1,13 @@
 package com.mosstroyinfo.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
-public class LoginRequest {
-    @NotBlank(message = "email is required")
-    private String email;
+public record LoginRequest(
 
-    @NotBlank(message = "Password is required")
-    private String password;
-}
+        @NotBlank(message = "email is required")
+        String email,
+
+        @NotBlank(message = "Password is required")
+        String password
+) { }
 

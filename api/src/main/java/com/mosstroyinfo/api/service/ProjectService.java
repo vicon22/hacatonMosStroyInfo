@@ -1,7 +1,6 @@
 package com.mosstroyinfo.api.service;
 
 import com.mosstroyinfo.api.dto.ProjectResponse;
-import com.mosstroyinfo.api.model.Blueprint;
 import com.mosstroyinfo.api.model.Project;
 import com.mosstroyinfo.api.repository.BlueprintRepository;
 import com.mosstroyinfo.api.repository.ProjectRepository;
@@ -26,7 +25,7 @@ public class ProjectService {
     }
 
     public ProjectResponse getProjectByIdAndUserId(UUID id, UUID userId) {
-        Project project = projectRepository.findByIdAndUserId(id, userId)
+        var project = projectRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
         return toResponse(project);
     }
@@ -38,7 +37,7 @@ public class ProjectService {
                 .orElseThrow(() -> new RuntimeException("Blueprint not found"));
 
         // Создаем новый проект (ID будет сгенерирован автоматически через @UuidGenerator)
-        Project project = new Project();
+        var project = new Project();
         project.setTitle(title);
         project.setStatus(Project.ProjectStatus.NEW);
         project.setBlueprintId(blueprintId);
@@ -46,7 +45,7 @@ public class ProjectService {
         project.setDocuments(new java.util.ArrayList<>());
         project.setStreamUrls(new java.util.ArrayList<>());
 
-        Project savedProject = projectRepository.save(project);
+        var savedProject = projectRepository.save(project);
         return toResponse(savedProject);
     }
 

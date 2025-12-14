@@ -25,15 +25,15 @@ public class ProjectController {
             @Valid @RequestBody CreateProjectRequest request,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).body("{\"error\":\"Unauthorized\"}");
         }
 
         try {
-            ProjectResponse project = projectService.createProject(
-                    request.getBlueprintId(),
-                    request.getTitle(),
+            var project = projectService.createProject(
+                    request.blueprintId(),
+                    request.title(),
                     userId
             );
             return ResponseEntity.ok(project);
@@ -49,12 +49,12 @@ public class ProjectController {
     public ResponseEntity<List<ProjectResponse>> getAllProjects(
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
-        
-        List<ProjectResponse> projects = projectService.getAllProjectsByUserId(userId);
+
+        var projects = projectService.getAllProjectsByUserId(userId);
         return ResponseEntity.ok(projects);
     }
 
@@ -63,12 +63,12 @@ public class ProjectController {
             @PathVariable UUID id,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
-        UUID userId = getUserId(sessionId, authentication);
+        var userId = getUserId(sessionId, authentication);
         if (userId == null) {
             return ResponseEntity.status(401).build();
         }
-        
-        ProjectResponse project = projectService.getProjectByIdAndUserId(id, userId);
+
+        var project = projectService.getProjectByIdAndUserId(id, userId);
         return ResponseEntity.ok(project);
     }
 

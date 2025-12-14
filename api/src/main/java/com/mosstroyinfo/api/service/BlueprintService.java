@@ -22,7 +22,7 @@ public class BlueprintService {
     }
 
     public BlueprintResponse getBlueprintById(UUID id) {
-        Blueprint blueprint = blueprintRepository.findById(id)
+        var blueprint = blueprintRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Blueprint not found"));
         return toResponse(blueprint);
     }

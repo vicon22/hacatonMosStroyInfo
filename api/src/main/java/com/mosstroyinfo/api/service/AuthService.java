@@ -1,6 +1,5 @@
 package com.mosstroyinfo.api.service;
 
-import com.mosstroyinfo.api.model.User;
 import com.mosstroyinfo.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,11 @@ public class AuthService {
     private final ConcurrentHashMap<String, UUID> sessions = new ConcurrentHashMap<>();
 
     public String login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+        var user = userRepository.findByEmail(email)
                 .orElse(null);
         
         if (user != null && user.getPassword().equals(password)) {
-            String sessionId = UUID.randomUUID().toString();
+            var sessionId = UUID.randomUUID().toString();
             sessions.put(sessionId, user.getId());
             return sessionId;
         }

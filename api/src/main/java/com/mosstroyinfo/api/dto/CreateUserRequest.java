@@ -2,21 +2,19 @@ package com.mosstroyinfo.api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
-public class CreateUserRequest {
+public record CreateUserRequest (
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
-    private String email;
+    String email,
 
     @NotBlank(message = "Password is required")
-    private String password;
+    String password,
 
     @NotBlank(message = "First name is required")
-    private String firstName;
+    String firstName,
 
     @NotBlank(message = "Last name is required")
-    private String lastName;
-}
+    String lastName
+) {}
 

@@ -3,7 +3,6 @@ package com.mosstroyinfo.api.controller;
 import com.mosstroyinfo.api.dto.CreateUserRequest;
 import com.mosstroyinfo.api.dto.LoginRequest;
 import com.mosstroyinfo.api.dto.LoginResponse;
-import com.mosstroyinfo.api.dto.UserResponse;
 import com.mosstroyinfo.api.service.AuthService;
 import com.mosstroyinfo.api.service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -24,10 +23,10 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest request,
             HttpServletResponse response) {
-        String sessionId = authService.login(request.getEmail(), request.getPassword());
+        var sessionId = authService.login(request.email(), request.password());
         
         if (sessionId != null) {
-            Cookie cookie = new Cookie("fm_session", sessionId);
+            var cookie = new Cookie("fm_session", sessionId);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setMaxAge(86400); // 24 часа
@@ -46,8 +45,8 @@ public class AuthController {
         if (sessionId != null) {
             authService.logout(sessionId);
         }
-        
-        Cookie cookie = new Cookie("fm_session", "");
+
+        var cookie = new Cookie("fm_session", "");
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(0);
@@ -59,11 +58,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody CreateUserRequest request) {
         try {
-            UserResponse user = userService.createUser(
-                    request.getEmail(),
-                    request.getPassword(),
-                    request.getFirstName(),
-                    request.getLastName()
+            var user = userService.createUser(
+                    request.email(),
+                    request.password(),
+                    request.firstName(),
+                    request.lastName()
             );
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {

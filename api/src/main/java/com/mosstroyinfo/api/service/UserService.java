@@ -16,7 +16,7 @@ public class UserService {
     private final AuthService authService;
 
     public UserResponse getUserById(UUID id) {
-        User user = userRepository.findById(id)
+        var user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         return new UserResponse(
@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public UserResponse getCurrentUser(String sessionId) {
-        UUID userId = authService.getUserIdBySession(sessionId);
+        var userId = authService.getUserIdBySession(sessionId);
         if (userId == null) {
             throw new RuntimeException("Unauthorized");
         }
@@ -40,13 +40,13 @@ public class UserService {
             throw new RuntimeException("User with this email already exists");
         }
 
-        User user = new User();
+        var user = new User();
         user.setEmail(email);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
-        User savedUser = userRepository.save(user);
+        var savedUser = userRepository.save(user);
         
         return new UserResponse(
                 savedUser.getFirstName(),

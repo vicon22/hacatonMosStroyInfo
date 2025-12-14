@@ -28,7 +28,7 @@ public class DataInitializer implements CommandLineRunner {
                 UUID userId = null;
 
                 if (userRepository.count() == 0) {
-                        User admin = new User();
+                    var admin = new User();
                         admin.setId(UUID.fromString("550e8400-e29b-41d4-a716-446655440099"));
                         admin.setEmail("admin");
                         admin.setPassword("123");
@@ -37,7 +37,7 @@ public class DataInitializer implements CommandLineRunner {
                         admin = userRepository.save(admin);
                         adminId = admin.getId();
 
-                        User user1 = new User();
+                    var user1 = new User();
                         user1.setEmail("user@example.com");
                         user1.setPassword("password");
                         user1.setFirstName("Иван");
@@ -56,7 +56,7 @@ public class DataInitializer implements CommandLineRunner {
 
                 // Инициализация вариантов проектов (blueprints)
                 if (blueprintRepository.count() == 0) {
-                        List<Blueprint> blueprints = Arrays.asList(
+                    var blueprints = Arrays.asList(
                                         createBlueprint("Проект Д-1", "/media/d1.webp", 10_000_000L,
                                                         Blueprint.Material.bricks, Blueprint.Seriality.serial, 3, 6, 3,
                                                         2, 250),
@@ -103,15 +103,15 @@ public class DataInitializer implements CommandLineRunner {
 
                         if (adminId != null && userId != null) {
                                 // Получаем ID blueprints для создания проектов
-                                List<Blueprint> allBlueprints = blueprintRepository.findAll();
+                            var allBlueprints = blueprintRepository.findAll();
                                 if (allBlueprints.size() >= 4) {
-                                        UUID blueprint101 = allBlueprints.get(0).getId(); // Проект Д-1
-                                        UUID blueprint201 = allBlueprints.get(3).getId(); // Проект Б-1
-                                        UUID blueprint103 = allBlueprints.get(2).getId(); // Проект Д-3
-                                        UUID blueprint302 = allBlueprints.get(6).getId(); // Проект С-2
-                                        UUID blueprint402 = allBlueprints.get(8).getId(); // Проект Г-2
+                                    var blueprint101 = allBlueprints.get(0).getId(); // Проект Д-1
+                                    var blueprint201 = allBlueprints.get(3).getId(); // Проект Б-1
+                                    var blueprint103 = allBlueprints.get(2).getId(); // Проект Д-3
+                                    var blueprint302 = allBlueprints.get(6).getId(); // Проект С-2
+                                    var blueprint402 = allBlueprints.get(8).getId(); // Проект Г-2
 
-                                        List<Project> projects = Arrays.asList(
+                                    var projects = Arrays.asList(
                                                         // Проекты для admin
                                                         createProject(UUID.fromString(
                                                                         "550e8400-e29b-41d4-a716-446655440000"),
@@ -154,7 +154,7 @@ public class DataInitializer implements CommandLineRunner {
         private Blueprint createBlueprint(String title, String imageUrl, Long price,
                         Blueprint.Material material, Blueprint.Seriality seriality,
                         Integer floors, Integer rooms, Integer bedrooms, Integer bathrooms, Integer area) {
-                Blueprint blueprint = new Blueprint();
+            var blueprint = new Blueprint();
                 blueprint.setTitle(title);
                 blueprint.setImageUrl(imageUrl);
                 blueprint.setPrice(price);
@@ -171,7 +171,7 @@ public class DataInitializer implements CommandLineRunner {
         private Project createProject(UUID id, String title, Project.ProjectStatus status, UUID blueprintId,
                         UUID userId,
                         List<String> documents, List<String> streamUrls) {
-                Project project = new Project();
+            var project = new Project();
                 project.setId(id);
                 project.setTitle(title);
                 project.setStatus(status);

@@ -6,6 +6,7 @@ import com.mosstroyinfo.api.model.Project;
 import com.mosstroyinfo.api.repository.DocumentRepository;
 import com.mosstroyinfo.api.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -14,24 +15,26 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class DocumentService {
-    private final DocumentRepository documentRepository;
-    private final ProjectRepository projectRepository;
+    DocumentRepository documentRepository;
+    ProjectRepository projectRepository;
 
     @Value("${document.upload.dir:./uploads}")
     private String uploadDir;
 
     public DocumentResponse uploadDocument(UUID projectId, UUID userId, MultipartFile file) {
-        Project project = projectRepository.findById(projectId)
+        var project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
 
         if (!project.getUserId().equals(userId)) {
@@ -40,21 +43,21 @@ public class DocumentService {
 
         try {
             // Создаем директорию если её нет
-            Path uploadPath = Paths.get(uploadDir);
+            var uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
             // Генерируем уникальное имя файла
-            String originalFileName = file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
-            Path filePath = uploadPath.resolve(fileName);
+            var originalFileName = file.getOriginalFilename();
+            var fileName = UUID.randomUUID().toString() + "_" + originalFileName;
+            var filePath = uploadPath.resolve(fileName);
 
             // Сохраняем файл
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Создаем запись в БД
-            Document document = new Document();
+            var document = new Document();
             document.setFileName(fileName);
             document.setOriginalFileName(originalFileName);
             document.setContentType(file.getContentType());
@@ -84,11 +87,11 @@ public class DocumentService {
     }
 
     public Resource downloadDocument(UUID documentId, UUID userId) {
-        Document document = documentRepository.findByIdAndUserId(documentId, userId)
+        var document = documentRepository.findByIdAndUserId(documentId, userId)
                 .orElseThrow(() -> new RuntimeException("Document not found"));
 
         try {
-            Path filePath = Paths.get(document.getFilePath());
+            var filePath = Paths.get(document.getFilePath());
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
@@ -107,12 +110,12 @@ public class DocumentService {
     }
 
     public void deleteDocument(UUID documentId, UUID userId) {
-        Document document = documentRepository.findByIdAndUserId(documentId, userId)
+        var document = documentRepository.findByIdAndUserId(documentId, userId)
                 .orElseThrow(() -> new RuntimeException("Document not found"));
 
         // Удаляем файл с диска
         try {
-            Path filePath = Paths.get(document.getFilePath());
+            var filePath = Paths.get(document.getFilePath());
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
             // Логируем ошибку, но продолжаем удаление из БД
@@ -124,7 +127,7 @@ public class DocumentService {
     }
 
     public DocumentResponse updateDocumentStatus(UUID documentId, UUID userId, Document.DocumentStatus status) {
-        Document document = documentRepository.findByIdAndUserId(documentId, userId)
+        var document = documentRepository.findByIdAndUserId(documentId, userId)
                 .orElseThrow(() -> new RuntimeException("Document not found"));
 
         document.setStatus(status);
@@ -136,7 +139,7 @@ public class DocumentService {
 
     private DocumentResponse toResponse(Document document) {
         // Получаем название проекта
-        String projectTitle = projectRepository.findById(document.getProjectId())
+        var projectTitle = projectRepository.findById(document.getProjectId())
                 .map(Project::getTitle)
                 .orElse("Unknown");
 
