@@ -4,53 +4,57 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Entity
 @Table(name = "documents")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class Document {
     @Id
     @UuidGenerator
-    private UUID id;
+    UUID id;
 
     @Column(nullable = false)
-    private String fileName;
+    String fileName;
 
     @Column(nullable = false)
-    private String originalFileName;
+    String originalFileName;
 
     @Column(nullable = false)
-    private String contentType;
+    String contentType;
 
     @Column(nullable = false)
-    private Long fileSize;
+    Long fileSize;
 
     @Column(nullable = false)
-    private String filePath;
+    String filePath;
 
     @Column(name = "project_id", nullable = false)
-    private UUID projectId;
+    UUID projectId;
 
     @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    UUID userId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private DocumentStatus status = DocumentStatus.NEW;
+    DocumentStatus status = DocumentStatus.NEW;
 
     @Column(name = "status_changed_at")
-    private LocalDateTime statusChangedAt;
+    LocalDateTime statusChangedAt;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime uploadedAt;
+    LocalDateTime uploadedAt;
 
     public enum DocumentStatus {
         NEW, // новое

@@ -5,6 +5,7 @@ import com.mosstroyinfo.api.model.Project;
 import com.mosstroyinfo.api.repository.BlueprintRepository;
 import com.mosstroyinfo.api.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,11 +13,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class ProjectService {
-    private final ProjectRepository projectRepository;
-    private final BlueprintRepository blueprintRepository;
+    ProjectRepository projectRepository;
+    BlueprintRepository blueprintRepository;
 
     public List<ProjectResponse> getAllProjectsByUserId(UUID userId) {
         return projectRepository.findByUserId(userId).stream()

@@ -5,6 +5,7 @@ import com.mosstroyinfo.api.dto.StatusUpdateRequest;
 import com.mosstroyinfo.api.service.AuthService;
 import com.mosstroyinfo.api.service.DocumentService;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,12 +17,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class DocumentController {
-    private final DocumentService documentService;
-    private final AuthService authService;
+    DocumentService documentService;
+    AuthService authService;
 
     @PostMapping("/projects/{id}/docs")
     public ResponseEntity<?> uploadDocument(

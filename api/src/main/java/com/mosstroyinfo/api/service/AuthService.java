@@ -2,18 +2,22 @@ package com.mosstroyinfo.api.service;
 
 import com.mosstroyinfo.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class AuthService {
-    private final UserRepository userRepository;
+    UserRepository userRepository;
     
     // Простое хранилище сессий
-    private final ConcurrentHashMap<String, UUID> sessions = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, UUID> sessions = new ConcurrentHashMap<>();
 
     public String login(String email, String password) {
         var user = userRepository.findByEmail(email)

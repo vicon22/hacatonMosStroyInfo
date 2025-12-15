@@ -7,30 +7,34 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class User {
     @Id
     @UuidGenerator
-    private UUID id;
+    UUID id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    String email;
 
     @Column(nullable = false)
-    private String password;
+    String password;
 
     @Column(name = "first_name", nullable = false)
-    private String firstName;
+    String firstName;
 
     @Column(name = "last_name", nullable = false)
-    private String lastName;
+    String lastName;
 }
 

@@ -7,6 +7,7 @@ import com.mosstroyinfo.api.repository.BlueprintRepository;
 import com.mosstroyinfo.api.repository.ProjectRepository;
 import com.mosstroyinfo.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class DataInitializer implements CommandLineRunner {
-        private final UserRepository userRepository;
-        private final ProjectRepository projectRepository;
-        private final BlueprintRepository blueprintRepository;
+        UserRepository userRepository;
+        ProjectRepository projectRepository;
+        BlueprintRepository blueprintRepository;
 
         @Override
         public void run(String... args) {

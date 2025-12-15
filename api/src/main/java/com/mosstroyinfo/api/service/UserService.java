@@ -4,16 +4,20 @@ import com.mosstroyinfo.api.dto.UserResponse;
 import com.mosstroyinfo.api.model.User;
 import com.mosstroyinfo.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class UserService {
-    private final UserRepository userRepository;
-    private final AuthService authService;
+    UserRepository userRepository;
+    AuthService authService;
 
     public UserResponse getUserById(UUID id) {
         var user = userRepository.findById(id)

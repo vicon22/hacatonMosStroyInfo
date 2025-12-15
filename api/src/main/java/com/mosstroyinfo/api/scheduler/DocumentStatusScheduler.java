@@ -3,15 +3,19 @@ package com.mosstroyinfo.api.scheduler;
 import com.mosstroyinfo.api.model.Document;
 import com.mosstroyinfo.api.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class DocumentStatusScheduler {
-    private final DocumentRepository documentRepository;
+    DocumentRepository documentRepository;
 
     @Scheduled(fixedDelay = 5000)
     public void autoApproveDocuments() {

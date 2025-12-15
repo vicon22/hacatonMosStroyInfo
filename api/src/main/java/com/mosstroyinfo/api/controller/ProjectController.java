@@ -6,6 +6,7 @@ import com.mosstroyinfo.api.service.AuthService;
 import com.mosstroyinfo.api.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @RestController
 @RequestMapping("/api/projects")
 @RequiredArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class ProjectController {
-    private final ProjectService projectService;
-    private final AuthService authService;
+    ProjectService projectService;
+    AuthService authService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createProject(

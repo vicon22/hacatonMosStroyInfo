@@ -4,51 +4,55 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "blueprints")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class Blueprint {
     @Id
     @UuidGenerator
-    private UUID id;
+    UUID id;
 
     @Column(nullable = false)
-    private String title;
+    String title;
 
     @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    String imageUrl;
 
     @Column(nullable = false)
-    private Long price;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Material material;
+    Long price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Seriality seriality;
+    Material material;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    Seriality seriality;
 
     @Column(nullable = false)
-    private Integer floors;
+    Integer floors;
 
     @Column(nullable = false)
-    private Integer rooms;
+    Integer rooms;
 
     @Column(nullable = false)
-    private Integer bedrooms;
+    Integer bedrooms;
 
     @Column(nullable = false)
-    private Integer bathrooms;
+    Integer bathrooms;
 
     @Column(nullable = false)
-    private Integer area;
+    Integer area;
 
     public enum Material {
         timber, aeratedConcrete, reinforcedConcrete, bricks
