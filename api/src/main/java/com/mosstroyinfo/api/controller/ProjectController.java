@@ -24,11 +24,13 @@ public class ProjectController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createProject(
-            @Valid @RequestBody CreateProjectRequest request,
+            @RequestBody CreateProjectRequest request,
             @CookieValue(value = "fm_session", required = false) String sessionId,
             Authentication authentication) {
+
+        System.out.println(request.toString());
         log.info("POST /api/projects/create - title: {}, blueprintId: {}, sessionId: {}", 
-            request.getTitle(), request.getBlueprintId(),
+            request.getTitle(), request.getBlueprint_id(),
             sessionId != null && sessionId.length() > 20 ? sessionId.substring(0, 20) + "..." : sessionId);
         UUID userId = getUserId(sessionId, authentication);
         if (userId == null) {
@@ -39,7 +41,7 @@ public class ProjectController {
         log.info("POST /api/projects/create - userId: {}", userId);
         try {
             ProjectResponse project = projectService.createProject(
-                    request.getBlueprintId(),
+                    UUID.fromString(request.getBlueprint_id()),
                     request.getTitle(),
                     userId
             );

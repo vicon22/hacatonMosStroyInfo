@@ -17,7 +17,5 @@ export const getProjectByIdQuery = (id: ProjectID) => ({
         root,
         id
     ],
-    queryFn: async () => {
-        return await getById(id);
-    },
+    queryFn: () => getById(id),
 });

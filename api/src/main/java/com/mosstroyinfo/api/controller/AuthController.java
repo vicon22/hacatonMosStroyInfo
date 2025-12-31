@@ -77,7 +77,7 @@ public class AuthController {
                     request.getLastName()
             );
             log.info("POST /api/auth/register - User registered successfully: {} (id: {})", 
-                request.getEmail(), user.getId());
+                request.getEmail(), user.getEmail());
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             log.error("POST /api/auth/register - Registration failed for email: {}, error: {}", 

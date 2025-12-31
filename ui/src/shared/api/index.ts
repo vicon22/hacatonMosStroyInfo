@@ -11,14 +11,7 @@ export class ApiClient {
     };
  
     private getBaseUrl(): string {
-        // На сервере нужно использовать полный URL к Next.js серверу, на клиенте - относительный
-        if (typeof window === 'undefined') {
-            // Серверная сторона - используем localhost:3000 (Next.js сервер)
-            const port = process.env.PORT || '3000';
-            return `http://localhost:${port}`;
-        }
-        // Клиентская сторона - используем относительный путь
-        return '';
+        return String(process.env.API_ROOT || process.env.NEXT_PUBLIC_API_ROOT);
     }
  
     private request(url: string, method: HTTPMethod, params?: Partial<RequestInit>) {
@@ -44,15 +37,8 @@ export class ApiClient {
                 if (response.status === 204) {
                     return Promise.resolve({})
                 }
-
                
-                const res = response.json()
-
-                 if (url.includes('user')) {
-                    console.log(res)
-                }
-
-                return res;
+                return response.json();
             })
             .catch(e => {
                 console.error(`[ApiClient] Error for ${url}:`, e);
@@ -73,11 +59,6 @@ export class ApiClient {
     }
 
     get<R>(url: string): Promise<R> {
-
-        if (url.includes('user')) {
-            console.log(this.headers);
-        }
-
         return this.request(url, HTTPMethod.get);
     }
 

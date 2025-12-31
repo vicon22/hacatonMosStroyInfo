@@ -26,8 +26,7 @@ export const Create = memo(function Create({ blueprintId }: CreateProps) {
     });
     const [formState, setFormState] = useState<CreateProjectPayload>({
         title: '',
-        address: '',
-        blueprintId: ''
+        blueprint_id: ''
     });
 
     return (
@@ -72,7 +71,7 @@ export const Create = memo(function Create({ blueprintId }: CreateProps) {
                             }}
                         />
 
-                        <Divider/>
+                        {/* <Divider/>
 
                         <TextInput
                             label={t('projects.form.fields.address')}
@@ -84,7 +83,7 @@ export const Create = memo(function Create({ blueprintId }: CreateProps) {
                                     address: e.target.value
                                 }))
                             }}
-                        />
+                        /> */}
                     </div>
                 </Col>
             </Row>
@@ -103,11 +102,11 @@ export const Create = memo(function Create({ blueprintId }: CreateProps) {
                                     <Radio
                                         size='xl'
                                         value={id}
-                                        checked={formState.blueprintId === id}
+                                        checked={formState.blueprint_id === id}
                                         onChange={() => {
                                             setFormState(state => ({
                                                 ...state,
-                                                blueprintId: id
+                                                blueprint_id: id
                                             }))
                                         }}
                                     >
@@ -130,7 +129,7 @@ export const Create = memo(function Create({ blueprintId }: CreateProps) {
                         size='xl'
                         view='action'
                         loading={mutation.isPending}
-                        disabled={mutation.isPending || (!formState.address.length || !formState.blueprintId || !formState.title)}
+                        disabled={mutation.isPending || (!formState.blueprint_id || !formState.title)}
                         onClick={() => mutation.mutate(formState)}
                     >
                         {t('projects.form.actions.submit')}

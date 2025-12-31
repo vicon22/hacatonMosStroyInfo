@@ -31,7 +31,7 @@ public class UserController {
         UserResponse user = userService.getCurrentUser(sessionId);
         if (user != null) {
             log.info("GET /api/users/self - User found: {} {} (id: {})", 
-                user.getFirstName(), user.getLastName(), user.getId());
+                user.getFirst_name(), user.getLast_name(), user.getEmail());
         } else {
             log.warn("GET /api/users/self - User not found for sessionId");
         }
@@ -43,7 +43,7 @@ public class UserController {
         log.info("GET /api/users/{} - Request to get user by id", id);
         UserResponse user = userService.getUserById(id);
         if (user != null) {
-            log.info("GET /api/users/{} - User found: {} {}", id, user.getFirstName(), user.getLastName());
+            log.info("GET /api/users/{} - User found: {} {}", id, user.getFirst_name(), user.getLast_name());
         } else {
             log.warn("GET /api/users/{} - User not found", id);
         }

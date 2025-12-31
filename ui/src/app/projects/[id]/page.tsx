@@ -22,15 +22,17 @@ export default async function ProjectByIdPage(props: ProjectByIdPageProps) {
     const client = getQueryClient();
     const isCreation = id === 'new';
 
-    if (!isCreation) {
-        await client.prefetchQuery(getProjectByIdQuery(id));
+    await pageInit(async () => {
+        if (!isCreation) {
+            await client.prefetchQuery(getProjectByIdQuery(id));
 
-        const project = await client.fetchQuery(getProjectByIdQuery(id));
-    
-        await pageInit(() => client.prefetchQuery(getBlueprintByIdQuery(project.blueprint_id)));
-    } else {
-        await pageInit();
-    }
+            const project = await client.fetchQuery(getProjectByIdQuery(id));
+        
+            await client.prefetchQuery(getBlueprintByIdQuery(project.blueprint_id));
+        } 
+
+        return Promise.resolve();
+    });
 
     return (
         <HydrationBoundary state={dehydrate(client)}>

@@ -37,7 +37,6 @@ export const Approval = memo(function Approval({ id }: ApprovalProps) {
                     </Breadcrumbs>
                 </Col>
             </Row>
-
             <Row>
                 <Col size={[12, { l: 7 }]}>
                     <Button

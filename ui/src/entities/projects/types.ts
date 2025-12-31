@@ -3,8 +3,7 @@ export type ProjectID = string | number;
 
 export type CreateProjectPayload = {
     title: string;
-    address: string;
-    blueprintId: string;
+    blueprint_id: string;
 }
 
 export enum ProjectStatus {
@@ -23,6 +22,7 @@ export type Project = {
     id: ProjectID;
     title: string;
     status: ProjectStatus,
-    blueprint_id: number;
-    translations: ProjectVideo[];
+    blueprint_id: string;
+    stream_urls: string[];
+    documents: string[];
 }

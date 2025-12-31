@@ -214,7 +214,7 @@ export const DocumentsTable = memo(function DocumentsTable() {
     }
 
     const projectOptions = projects.data?.map(p => ({
-        value: p.id,
+        value: String(p.id),
         content: p.title
     })) || [];
 

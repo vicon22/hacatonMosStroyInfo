@@ -17,9 +17,9 @@ export default function SignIn() {
     const router = useRouter();
     const [formData, setFormData] = useState<Record<LoginFields, string>>({
         [LoginFields.password]: '',
-        [LoginFields.username]: ''
+        [LoginFields.email]: ''
     });
-    const [formErrors, setFormErrors] = useState<Record<string, boolean>>({});
+    const [formErrors, setFormErrors] = useState<Partial<Record<LoginFields, boolean>>>({});
     
     const loginMutation = useLoginMutation({
         onSuccess: async response => {
@@ -49,7 +49,7 @@ export default function SignIn() {
         if (isValid) {
             loginMutation.mutate({
                 password: formData.password,
-                username: formData.username
+                email: formData.email
             });
         }
     }, [loginMutation, formData]);
@@ -84,9 +84,9 @@ export default function SignIn() {
                     <TextInput
                         autoFocus
                         size='xl'
-                        value={formData.username || ''}
+                        value={formData.email || ''}
                         placeholder={t('admission.login.fields.username')}
-                        onChange={e => onFormChange({ username: e.target.value.trim() })}
+                        onChange={e => onFormChange({ email: e.target.value.trim() })}
                     />
                     <PasswordInput
                         size='xl'
@@ -102,7 +102,7 @@ export default function SignIn() {
                         selected
                         width='max'
                         size='xl'
-                        disabled={!(formData.password?.length && formData.username?.length)}
+                        disabled={!(formData.password?.length && formData.email?.length)}
                         onClick={onLogin}
                     >
                         {t('admission.login.actions.submit')}

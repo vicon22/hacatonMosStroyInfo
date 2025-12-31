@@ -2,7 +2,7 @@
 
 import { useProjectById } from "@/entities/projects/hooks";
 
-import { memo, useState } from "react"
+import { memo } from "react"
 import { useTranslation } from "react-i18next";
 
 import dynamic from "next/dynamic";
@@ -27,7 +27,6 @@ export const Construction = memo(function Construction({ id }: ConstructionProps
     const { t } = useTranslation();
     const project = useProjectById(id);
     const blueprint = useBlueprintById(String(project.data?.blueprint_id));
-    const [activeTab, setActiveTab] = useState<string>('video')
 
     return (
         <Container>
@@ -88,9 +87,9 @@ export const Construction = memo(function Construction({ id }: ConstructionProps
             <Row space='10'>
                 <Col size={[12, { l: 9 }]}>
                     <div className={st.videos}>
-                        {project.data?.translations.map(video => (
-                            <Card className={st.video} key={video.title}>
-                                {activeTab === 'video' && <LazyPlayer source={video.url}/>}
+                        {project.data?.stream_urls.map(url => (
+                            <Card className={st.video} key={url}>
+                                <LazyPlayer source={url}/>
                             </Card>
                         ))}
                     </div>

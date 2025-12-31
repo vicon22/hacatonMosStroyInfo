@@ -10,7 +10,7 @@ interface Error {
 }
 
 export function useLoginMutation(
-    options?: MutationOptions<LoginResult, Error, { username: string, password: string }>
+    options?: MutationOptions<LoginResult, Error, { email: string, password: string }>
 ) {
     return useMutation({
         mutationFn: login,

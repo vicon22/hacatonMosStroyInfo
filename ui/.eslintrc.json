@@ -1,0 +1,45 @@
+{
+  "root": true,
+  "extends": [
+    "react-app"
+  ],
+  "rules": { 
+    "import/order": [
+      "error", {
+        "groups": [
+          "external",
+          "builtin",
+          "object",
+          "sibling",
+          "parent",
+          "internal",
+          "type",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/widgets/**",
+            "group": "object",
+            "position": "after"
+          },
+          {
+            "pattern": "@/features/**",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "@/entities/**",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
+            "pattern": "@/shared/**",
+            "group": "sibling",
+            "position": "before"
+          }
+        ],
+        "distinctGroup": false
+      }
+    ]
+  }
+}
