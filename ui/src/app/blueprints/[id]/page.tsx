@@ -8,26 +8,26 @@ import { notFound } from "next/navigation";
 
 type BlueprintByIdPageProps = {
   params: Promise<{
-    id?: string
-  }>
-}
+    id?: string;
+  }>;
+};
 
 export default async function BlueprintByIdPage(props: BlueprintByIdPageProps) {
-    const id = (await props.params)?.id;
+  const id = (await props.params)?.id;
 
-    if (!id ) {
-        notFound()
-    }
+  if (!id) {
+    notFound();
+  }
 
-    const client = getQueryClient();
-  
-    await pageInit(() => client.prefetchQuery(getBlueprintByIdQuery(id)));
+  const client = getQueryClient();
 
-    return (
-        <HydrationBoundary state={dehydrate(client)}>
-            <Layout>
-                <Summary id={id}/>
-            </Layout>
-        </HydrationBoundary>
-    )
+  await pageInit(() => client.prefetchQuery(getBlueprintByIdQuery(id)));
+
+  return (
+    <HydrationBoundary state={dehydrate(client)}>
+      <Layout>
+        <Summary id={id} />
+      </Layout>
+    </HydrationBoundary>
+  );
 }

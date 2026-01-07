@@ -1,0 +1,24 @@
+.layout {
+  min-width: 40vw;
+  padding: calc(var(--unit) * 3) calc(var(--unit) * 10);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--unit) * 3);
+
+  .title {
+    line-height: 2.5;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--unit) * 8);
+    margin: calc(var(--unit) * 3) 0;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    padding: calc(var(--unit) * 3) 0;
+  }
+}

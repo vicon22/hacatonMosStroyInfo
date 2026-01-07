@@ -1,28 +1,37 @@
 export type ProjectID = string | number;
 
-
 export type CreateProjectPayload = {
-    title: string;
-    blueprint_id: string;
-}
+  title: string;
+  blueprint_id: string;
+};
+
+export type ChangeProjectStatusPayload = {
+  id: ProjectID;
+  status: ProjectStatus;
+};
+
+export type UploadProjectFilePayload = {
+  id: ProjectID;
+  files: File[];
+};
 
 export enum ProjectStatus {
-    new = 'new',
-    approval = 'approval',
-    pending = 'pending',
-    completed = 'completed'
+  new = "new",
+  approval = "approval",
+  pending = "pending",
+  completed = "completed",
 }
 
 export type ProjectVideo = {
-    title: string;
-    url: string;
-}
+  title: string;
+  url: string;
+};
 
 export type Project = {
-    id: ProjectID;
-    title: string;
-    status: ProjectStatus,
-    blueprint_id: string;
-    stream_urls: string[];
-    documents: string[];
-}
+  id: ProjectID;
+  title: string;
+  status: ProjectStatus;
+  blueprint_id: string;
+  stream_urls: string[];
+  documents: string[];
+};

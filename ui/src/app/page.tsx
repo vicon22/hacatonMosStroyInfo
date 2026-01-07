@@ -7,18 +7,20 @@ import { Layout } from "@/widgets/layout/Layout";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function Home() {
-    const client = getQueryClient();
+  const client = getQueryClient();
 
-    await pageInit(() => Promise.all([
-        client.prefetchQuery(getAllProjectsQuery()),
-        client.prefetchQuery(getAllBlueprintsQuery()),
-    ]));
+  await pageInit(() =>
+    Promise.all([
+      client.prefetchQuery(getAllProjectsQuery()),
+      client.prefetchQuery(getAllBlueprintsQuery()),
+    ]),
+  );
 
-    return (
-        <HydrationBoundary state={dehydrate(client)}>
-            <Layout>
-                <Dashboard/>
-            </Layout>
-        </HydrationBoundary>
-    )
+  return (
+    <HydrationBoundary state={dehydrate(client)}>
+      <Layout>
+        <Dashboard />
+      </Layout>
+    </HydrationBoundary>
+  );
 }

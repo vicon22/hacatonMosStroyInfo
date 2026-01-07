@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Project {
     @Id
+    @UuidGenerator
     private UUID id;
 
     @Column(nullable = false)

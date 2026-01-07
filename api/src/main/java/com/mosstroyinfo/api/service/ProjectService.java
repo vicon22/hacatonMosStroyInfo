@@ -44,10 +44,21 @@ public class ProjectService {
         project.setBlueprintId(blueprintId);
         project.setUserId(userId);
         project.setDocuments(new java.util.ArrayList<>());
-        project.setStreamUrls(new java.util.ArrayList<>());
+        project.setStreamUrls(List.of("https://dash.akamaized.net/akamai/gpac/motion/motion-20120802-manifest.mpd"));
 
         Project savedProject = projectRepository.save(project);
         return toResponse(savedProject);
+    }
+
+
+    @Transactional
+    public ProjectResponse updateProjectState(UUID projectId, Project.ProjectStatus status) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        project.setStatus(status);
+
+        return toResponse(projectRepository.save(project));
     }
 
     private ProjectResponse toResponse(Project project) {

@@ -1,53 +1,45 @@
-'use client'
+"use client";
 
-import React, { memo, useEffect } from 'react';
-import {MediaPlayer} from 'dashjs';
-import st from './player.module.css';
+import React, { memo, useEffect } from "react";
+import { MediaPlayer } from "dashjs";
+import st from "./player.module.css";
 
 type PlayerProps = {
-    source: string;
-}
+  source: string;
+};
 
 const Player = memo<PlayerProps>(function Player(props) {
-    const videoRef = React.useRef(null);
+  const videoRef = React.useRef(null);
 
-    useEffect(() => {
-        const ref = videoRef.current;
-        const instanse = MediaPlayer().create();
+  useEffect(() => {
+    const ref = videoRef.current;
+    const instanse = MediaPlayer().create();
 
-        instanse.updateSettings({
-            streaming: {
-                abr: {
-                    minBitrate: {
-                        audio: 1,
-                        video: 1
-                    },
-                    initialBitrate: {
-                        audio: 1,
-                        video: 1
-                    }
-                }
-            }
-        })
+    instanse.updateSettings({
+      streaming: {
+        abr: {
+          minBitrate: {
+            audio: 1,
+            video: 1,
+          },
+          initialBitrate: {
+            audio: 1,
+            video: 1,
+          },
+        },
+      },
+    });
 
-        if (ref) {
-            instanse.initialize(ref, props.source, false);
-            instanse.seek(10);
-        }
+    if (ref) {
+      instanse.initialize(ref, props.source, false);
+    }
 
-        return () => {
-            instanse.destroy()
-        }
-    }, [videoRef, props.source]);
+    return () => {
+      instanse.destroy();
+    };
+  }, [videoRef, props.source]);
 
-    return (
-        <video
-            className={st.video}
-            ref={videoRef}
-            controls
-            muted
-        />
-    );
+  return <video className={st.video} ref={videoRef} controls muted />;
 });
 
 export default Player;

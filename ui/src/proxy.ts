@@ -1,36 +1,50 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from "next/server";
+import { cookies, headers } from "next/headers";
+import { getById } from "./entities/user/services";
+import { selfId } from "./entities/user/constants";
+import { ApiClient } from "./shared/api";
 
-const admissionRoutes = ['/login', '/signup'];
-const publicRoutes = [...admissionRoutes, '/api', '/_next', '/media']
+const publicRoutes = [
+  "/api",
+  "/_next",
+  "/media",
+  "/.well-known/appspecific/com.chrome.devtools.json",
+  "/enc.js",
+  "/favicon.ico",
+];
 
 export default async function proxy(req: NextRequest) {
-    const path = req.nextUrl.pathname;
-    const isPublicRoute = publicRoutes.includes(path);
-    const cookie = (await cookies()).get('fm_session')?.value;
+  const path = req.nextUrl.pathname;
+  const isPublicRoute = publicRoutes.includes(path);
 
-    if (cookie && admissionRoutes.includes(path)) {
-        return NextResponse.redirect(new URL('/', req.nextUrl));
-    }
-
-    // 4. Redirect to /login if the user is not authenticated
-    if (!isPublicRoute && !cookie) {
-        return NextResponse.redirect(new URL('/login', req.nextUrl));
-    }
-
-    // 5. Redirect to /dashboard if the user is authenticated
-    if (
-        isPublicRoute &&
-        cookie &&
-        !req.nextUrl.pathname.startsWith('/')
-    ) {
-        return NextResponse.redirect(new URL('/', req.nextUrl));
-    }
-
+  if (isPublicRoute) {
     return NextResponse.next();
+  } else {
+    try {
+      ApiClient.instance.addHeaders({
+        Cookie: (await cookies()).toString(),
+        "x-request-id": String((await headers()).get("x-request-id")),
+      });
+
+      const selfData = await getById(selfId);
+
+      if (!selfData.email) {
+        if (path !== "/login") {
+          return NextResponse.redirect(new URL("/login", req.nextUrl));
+        }
+      } else {
+        if (path === "/login") {
+          return NextResponse.redirect(new URL("/", req.nextUrl));
+        }
+      }
+    } catch (e) {
+      if (path !== "/login") {
+        return NextResponse.redirect(new URL("/login", req.nextUrl));
+      }
+    }
+  }
 }
 
-// Routes Proxy should not run on
 export const config = {
-    matcher: ['/((?!api|_next/*).*)'],
-}
+  matcher: ["/((?!api|_next/*).*)"],
+};

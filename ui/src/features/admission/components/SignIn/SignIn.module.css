@@ -1,34 +1,34 @@
 .layout {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .form {
-    width: calc(var(--unit) * 90);
-    padding: calc(var(--unit) * 10) calc(var(--unit) * 5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: calc(var(--unit) * 5);
+  width: calc(var(--unit) * 90);
+  padding: calc(var(--unit) * 10) calc(var(--unit) * 5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--unit) * 5);
 }
 
 .topline {
-    width: var(--aside-width);
-    box-sizing: border-box;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: calc(var(--unit) * 2);
-    padding: calc(var(--unit) * 3) calc(var(--unit) * 4);
+  width: var(--aside-width);
+  box-sizing: border-box;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--unit) * 2);
+  padding: calc(var(--unit) * 3) calc(var(--unit) * 4);
 }
 
 .fields {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--unit) * 4);
-    margin: calc(var(--unit) * 4) 0;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--unit) * 4);
+  margin: calc(var(--unit) * 4) 0;
+  width: 100%;
 }

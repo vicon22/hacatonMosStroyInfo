@@ -1,1 +1,1 @@
-export const selfId = 'self';
+export const selfId = "self";

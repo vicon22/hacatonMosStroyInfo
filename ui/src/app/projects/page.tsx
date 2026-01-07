@@ -7,18 +7,20 @@ import { Table } from "@/widgets/projects/Table/Table";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function ProjectsPage() {
-    const client = getQueryClient();
+  const client = getQueryClient();
 
-    await pageInit(() => Promise.all([
-        client.prefetchQuery(getAllProjectsQuery()),
-        client.prefetchQuery(getAllBlueprintsQuery()),
-    ]));
+  await pageInit(() =>
+    Promise.all([
+      client.prefetchQuery(getAllProjectsQuery()),
+      client.prefetchQuery(getAllBlueprintsQuery()),
+    ]),
+  );
 
-    return (
-        <HydrationBoundary state={dehydrate(client)}>
-            <Layout>
-                <Table/>
-            </Layout>
-        </HydrationBoundary>
-    )
+  return (
+    <HydrationBoundary state={dehydrate(client)}>
+      <Layout>
+        <Table />
+      </Layout>
+    </HydrationBoundary>
+  );
 }

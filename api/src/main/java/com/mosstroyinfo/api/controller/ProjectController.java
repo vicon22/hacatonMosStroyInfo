@@ -1,5 +1,6 @@
 package com.mosstroyinfo.api.controller;
 
+import com.mosstroyinfo.api.dto.ChangeProjectStateRequest;
 import com.mosstroyinfo.api.dto.CreateProjectRequest;
 import com.mosstroyinfo.api.dto.ProjectResponse;
 import com.mosstroyinfo.api.service.AuthService;
@@ -92,6 +93,28 @@ public class ProjectController {
         
         log.info("GET /api/projects/{} - userId: {}", id, userId);
         ProjectResponse project = projectService.getProjectByIdAndUserId(id, userId);
+        return ResponseEntity.ok(project);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ProjectResponse> setProjectStateById(
+            @PathVariable UUID id,
+            @RequestBody ChangeProjectStateRequest request,
+            @CookieValue(value = "fm_session", required = false) String sessionId,
+            Authentication authentication) {
+        log.info("GET /api/projects/{} - sessionId: {}, authentication: {}",
+                id,
+                sessionId != null && sessionId.length() > 20 ? sessionId.substring(0, 20) + "..." : sessionId,
+                authentication != null ? authentication.getName() : "null");
+        UUID userId = getUserId(sessionId, authentication);
+        if (userId == null) {
+            log.warn("GET /api/projects/{} - Unauthorized: no valid userId", id);
+            return ResponseEntity.status(401).build();
+        }
+
+        log.info("GET /api/projects/{} - userId: {}", id, userId);
+        ProjectResponse project = projectService.updateProjectState(id, request.getStatus());
+
         return ResponseEntity.ok(project);
     }
 

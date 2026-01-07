@@ -1,11 +1,10 @@
 {
   "root": true,
-  "extends": [
-    "react-app"
-  ],
-  "rules": { 
+  "extends": ["react-app"],
+  "rules": {
     "import/order": [
-      "error", {
+      "error",
+      {
         "groups": [
           "external",
           "builtin",

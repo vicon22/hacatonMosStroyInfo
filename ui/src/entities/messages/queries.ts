@@ -1,13 +1,6 @@
-
-
-import {
-    root,
-    getAll,
-} from './service';
+import { root, getAll } from "./service";
 
 export const getAllMessagesQuery = () => ({
-    queryKey: [root],
-    queryFn: getAll,
+  queryKey: [root],
+  queryFn: getAll,
 });
-
-

@@ -1,0 +1,24 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.placeholder {
+  flex-grow: 1;
+}
+
+.hint {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--unit) * 3);
+}
+
+.actions {
+  margin-top: calc(var(--unit) * 10);
+}
+
+.stepper {
+  margin-top: calc(var(--unit) * 5);
+  padding: 0;
+  pointer-events: none;
+}

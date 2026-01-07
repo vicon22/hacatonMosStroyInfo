@@ -104,6 +104,8 @@ public class DataInitializer implements CommandLineRunner {
                         if (adminId != null && userId != null) {
                                 // Получаем ID blueprints для создания проектов
                                 List<Blueprint> allBlueprints = blueprintRepository.findAll();
+
+
                                 if (allBlueprints.size() >= 4) {
                                         UUID blueprint101 = allBlueprints.get(0).getId(); // Проект Д-1
                                         UUID blueprint201 = allBlueprints.get(3).getId(); // Проект Б-1
@@ -118,33 +120,28 @@ public class DataInitializer implements CommandLineRunner {
                                                                         "Коттедж", Project.ProjectStatus.NEW,
                                                                         blueprint101, adminId,
                                                                         Arrays.asList("https://example.com/doc1.pdf",
-                                                                                        "https://example.com/doc2.pdf"),
-                                                                        Arrays.asList("https://stream.example.com/project1")),
+                                                                                        "https://example.com/doc2.pdf")),
                                                         createProject(UUID.fromString(
                                                                         "550e8400-e29b-41d4-a716-446655440001"),
                                                                         "Баня", Project.ProjectStatus.approval,
                                                                         blueprint201, adminId,
-                                                                        Arrays.asList("https://example.com/doc3.pdf"),
-                                                                        Arrays.asList("https://stream.example.com/project2")),
+                                                                        Arrays.asList("https://example.com/doc3.pdf")),
                                                         createProject(UUID.fromString(
                                                                         "550e8400-e29b-41d4-a716-446655440002"),
                                                                         "Гостевой дом", Project.ProjectStatus.pending,
                                                                         blueprint103, adminId,
                                                                         Arrays.asList("https://example.com/doc4.pdf",
-                                                                                        "https://example.com/doc5.pdf"),
-                                                                        Arrays.asList()),
+                                                                                        "https://example.com/doc5.pdf")),
                                                         createProject(UUID.fromString(
                                                                         "550e8400-e29b-41d4-a716-446655440003"),
                                                                         "Сарай", Project.ProjectStatus.completed,
                                                                         blueprint302, adminId,
-                                                                        Arrays.asList("https://example.com/doc6.pdf"),
-                                                                        Arrays.asList("https://stream.example.com/project4")),
+                                                                        Arrays.asList("https://example.com/doc6.pdf")),
                                                         createProject(UUID.fromString(
                                                                         "550e8400-e29b-41d4-a716-446655440004"),
                                                                         "Гараж", Project.ProjectStatus.completed,
                                                                         blueprint402, adminId,
-                                                                        Arrays.asList("https://example.com/doc7.pdf"),
-                                                                        Arrays.asList("https://stream.example.com/project5")));
+                                                                        Arrays.asList("https://example.com/doc7.pdf")));
                                         projectRepository.saveAll(projects);
                                 }
                         }
@@ -170,7 +167,7 @@ public class DataInitializer implements CommandLineRunner {
 
         private Project createProject(UUID id, String title, Project.ProjectStatus status, UUID blueprintId,
                         UUID userId,
-                        List<String> documents, List<String> streamUrls) {
+                        List<String> documents) {
                 Project project = new Project();
                 project.setId(id);
                 project.setTitle(title);
@@ -180,9 +177,12 @@ public class DataInitializer implements CommandLineRunner {
                 if (documents != null) {
                         project.setDocuments(documents);
                 }
-                if (streamUrls != null) {
-                        project.setStreamUrls(streamUrls);
-                }
+                project.setStreamUrls(List.of(
+                        "https://dash.akamaized.net/akamai/gpac/motion/motion-20120802-manifest.mpd",
+                        "https://dash.akamaized.net/akamai/nba/running_timecode_1509kbps_dash.mpd",
+                        "https://dash.akamaized.net/akamai/rlabonte/ED_master33.mpd",
+                        "https://dash.akamaized.net/akamai/redbull/kluge/Red_Bull_Kluge.mpd"
+                ));
                 return project;
         }
 }
