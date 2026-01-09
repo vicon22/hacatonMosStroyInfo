@@ -12,7 +12,7 @@ import {
   Stepper,
 } from "@gravity-ui/uikit";
 import { useBlueprintById } from "@/entities/blueprints/hooks";
-import { Chat } from "@/widgets/chat/Chat";
+import { Chat } from "@/widgets/Chat/Chat";
 import st from "./construction.module.css";
 import Link from "next/link";
 import {

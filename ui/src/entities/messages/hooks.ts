@@ -1,10 +1,22 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { getAllMessagesQuery } from "./queries";
-import { Message } from "./types";
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { getMessagesByRoomIdQuery } from "./queries";
+import { createMessage, root } from "./service";
+import { CreateMessagePayload, Message } from "./types";
 
-export function useAllMessages(options?: UseQueryOptions<Message[]>) {
+export function useMessagesByRoomId(roomId: string, options?: UseQueryOptions<Message[]>) {
   return useQuery<Message[]>({
-    ...getAllMessagesQuery(),
+    ...getMessagesByRoomIdQuery(roomId),
     ...options,
+  });
+}
+
+export function useCreateMessage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: CreateMessagePayload) => createMessage(payload),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [root, data.roomId] });
+    },
   });
 }

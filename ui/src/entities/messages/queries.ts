@@ -1,6 +1,6 @@
-import { root, getAll } from "./service";
+import { root, getByRoomId } from "./service";
 
-export const getAllMessagesQuery = () => ({
-  queryKey: [root],
-  queryFn: getAll,
+export const getMessagesByRoomIdQuery = (roomId: string) => ({
+  queryKey: [root, roomId],
+  queryFn: () => getByRoomId(roomId),
 });

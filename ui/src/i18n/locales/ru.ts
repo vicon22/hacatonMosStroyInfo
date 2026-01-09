@@ -159,6 +159,7 @@ const translations = {
     actions: {
       submit: "Отправить",
     },
+    welcome: "Наш менеджер с радостью ответит на все ваши вопросы!",
   },
 
   dashboard: {
