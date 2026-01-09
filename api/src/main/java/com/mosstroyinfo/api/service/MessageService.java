@@ -47,7 +47,6 @@ public class MessageService {
     }
 
     private MessageResponse toResponse(Message message) {
-        // Получаем email пользователя для совместимости с фронтендом
         String userEmail = userRepository.findById(message.getUserId())
                 .map(User::getEmail)
                 .orElse(message.getUserId().toString());
