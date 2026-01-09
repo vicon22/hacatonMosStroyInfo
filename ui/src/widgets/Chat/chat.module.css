@@ -31,3 +31,10 @@
 .message.own {
   align-self: flex-end;
 }
+
+.message.system {
+  align-self: center;
+  max-width: 80%;
+  opacity: 0.8;
+  font-style: italic;
+}
