@@ -20,11 +20,7 @@ import { useCreateProjectMutation } from "@/entities/projects/hooks";
 import { CreateProjectPayload } from "@/entities/projects/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type CreateProps = {
-  blueprintId?: string;
-};
-
-export const Create = memo(function Create({ blueprintId }: CreateProps) {
+export const Create = memo(function Create() {
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();

@@ -5,7 +5,9 @@ export default function useOuterClick(
   callback: () => void,
 ) {
   const handleClick: EventListener = (e) => {
-    ref?.current && !ref.current.contains(e?.target as Node) && callback();
+    if (ref?.current && !ref.current.contains(e?.target as Node)) {
+      callback();
+    }
   };
 
   useEffect(() => {

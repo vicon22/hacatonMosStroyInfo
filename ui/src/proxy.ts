@@ -37,7 +37,7 @@ export default async function proxy(req: NextRequest) {
           return NextResponse.redirect(new URL("/", req.nextUrl));
         }
       }
-    } catch (e) {
+    } catch {
       if (path !== "/login") {
         return NextResponse.redirect(new URL("/login", req.nextUrl));
       }

@@ -1,13 +1,10 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import st from "./checklist.module.css";
 import { Button, Text, Checkbox } from "@gravity-ui/uikit";
-import {
-  useChangeProjectStatusMutation,
-  useUploadProjectFileMutation,
-} from "@/entities/projects/hooks";
+import { useChangeProjectStatusMutation } from "@/entities/projects/hooks";
 import { ProjectStatus } from "@/entities/projects/types";
 
 type ChecklistProps = {

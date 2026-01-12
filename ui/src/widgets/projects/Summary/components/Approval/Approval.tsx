@@ -4,7 +4,7 @@ import {
   useChangeProjectStatusMutation,
   useProjectById,
 } from "@/entities/projects/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import st from "./approval.module.css";
@@ -42,7 +42,7 @@ export function Approval({ id }: ApprovalProps) {
   const { t } = useTranslation();
   const project = useProjectById(id);
   const [uploaderOpen, setUploaderOpen] = useState(false);
-  const [proceedOpen, setProceedOpen] = useState(false);
+
   const proceed = useChangeProjectStatusMutation({
     onSuccess() {
       setProceedOpen(false);
@@ -58,11 +58,7 @@ export function Approval({ id }: ApprovalProps) {
     !isEmpty &&
     projectDocs.every((item) => item.status === DocumentStatus.reviewed);
 
-  useEffect(() => {
-    if (allApproved && !proceedOpen) {
-      setProceedOpen(true);
-    }
-  }, []);
+  const [proceedOpen, setProceedOpen] = useState(allApproved);
 
   return (
     <Container className={st.layout}>

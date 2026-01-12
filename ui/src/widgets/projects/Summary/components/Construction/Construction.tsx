@@ -11,8 +11,7 @@ import {
   Row,
   Stepper,
 } from "@gravity-ui/uikit";
-import { useBlueprintById } from "@/entities/blueprints/hooks";
-import { Chat } from "@/widgets/Chat/Chat";
+import { Chat } from "@/widgets/chat/Chat";
 import st from "./construction.module.css";
 import Link from "next/link";
 import {
@@ -32,7 +31,6 @@ type ConstructionProps = {
 export function Construction({ id }: ConstructionProps) {
   const { t } = useTranslation();
   const project = useProjectById(id);
-  const blueprint = useBlueprintById(String(project.data?.blueprint_id));
 
   return (
     <Container>
